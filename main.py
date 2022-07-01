@@ -1,0 +1,20 @@
+from PIL import Image
+
+
+image = Image.open('picture.jpg')
+red, green, blue = image.split()
+coordinates = (50, 0, red.width, red.height)
+left_image = red.crop(coordinates)
+coordinates_2 = (25, 0, red.width - 25, red.height)
+middle_image = red.crop(coordinates_2)
+new_image_red = Image.blend(left_image, middle_image, 0.5)
+coordinates_blue = (0, 0, blue.width - 50, blue.height)
+left_image_blue = blue.crop(coordinates_blue)
+coordinates_blue_2 = (25, 0, blue.width - 25, blue.height)
+middle_image_blue = blue.crop(coordinates_blue_2)
+new_image_blue = Image.blend(left_image_blue, middle_image_blue, 0.5)
+coordinates_green = (25, 0, red.width - 25, red.height)
+new_image_green = green.crop(coordinates_green)
+ready_image = Image.merge("RGB", (new_image_red, new_image_green, new_image_blue))
+ready_image.thumbnail((80, 80))
+ready_image.save('ready.jpg')
